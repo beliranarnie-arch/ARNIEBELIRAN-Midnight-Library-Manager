@@ -373,6 +373,9 @@ def seed():
         app.logger.exception('Sample import failed')
         return fail('Sample import failed. Check Firestore and retry.',500)
 
-if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=int(os.getenv('PORT', '5000')),
-            debug=os.getenv('FLASK_DEBUG', 'false').lower() == 'true')
+if __name__ == "__main__":
+    app.run(
+        host="127.0.0.1",
+        port=int(os.getenv("PORT", "5001")),
+        debug=os.getenv("FLASK_DEBUG", "false").lower() == "true"
+    )
