@@ -1,1 +1,748 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>The Willow Library | Read. Relax. Discover.</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="app">
+
+    <div id="mobileOverlay" class="mobile-overlay"></div>
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">
+                <svg viewBox="0 0 80 80">
+                    <circle cx="40" cy="40" r="38" fill="#dce8d5"/>
+                    <path d="M40 32Q20 19 10 26V58Q25 50 40 63Q55 50 70 58V26Q55 19 40 32Z" fill="#77936c"/>
+                    <path d="M40 32V63" stroke="#fff8e8" stroke-width="2"/>
+                    <path d="M40 28Q20 10 33 7Q45 12 40 28" fill="#54734f"/>
+                    <path d="M42 28Q43 9 58 10Q57 24 42 28" fill="#9eb593"/>
+                </svg>
+            </div>
+
+            <div>
+                <h2>The Willow</h2>
+                <small>LIBRARY MANAGER</small>
+            </div>
+        </div>
+
+        <p class="tagline">Read. Relax. Discover.</p>
+
+        <p class="nav-caption">LIBRARY WORKSPACE</p>
+
+        <nav id="navigation">
+
+            <button class="nav-btn active" data-page="dashboard">
+                <i class="fa-solid fa-house"></i>
+                <span>Dashboard</span>
+            </button>
+
+            <button class="nav-btn" data-page="books">
+                <i class="fa-solid fa-book-open"></i>
+                <span>Book Collection</span>
+            </button>
+
+            <button class="nav-btn" data-page="members">
+                <i class="fa-solid fa-users"></i>
+                <span>Library Members</span>
+            </button>
+
+            <button class="nav-btn" data-page="borrowings">
+                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                <span>Borrowings</span>
+            </button>
+
+            <button class="nav-btn" data-page="returns">
+                <i class="fa-solid fa-book-bookmark"></i>
+                <span>Return Desk</span>
+            </button>
+
+            <button class="nav-btn" data-page="reports">
+                <i class="fa-solid fa-chart-column"></i>
+                <span>Reports</span>
+            </button>
+
+        </nav>
+
+        <!-- ANIMATED LIBRARY CAT -->
+
+        <div class="sidebar-art">
+
+            <svg viewBox="0 0 240 170">
+
+                <ellipse cx="120" cy="155" rx="95" ry="8" fill="#b8c9aa" opacity=".3"/>
+
+                <g class="sway">
+                    <path d="M47 130Q30 75 50 25" fill="none" stroke="#77936c" stroke-width="3"/>
+                    <path d="M44 90Q12 80 22 56Q45 61 44 90" fill="#a5b99a"/>
+                    <path d="M46 65Q82 49 70 25Q46 39 46 65" fill="#77936c"/>
+                    <path d="M45 110Q12 103 19 82Q43 86 45 110" fill="#b2c49f"/>
+                </g>
+
+                <path d="M28 122H67L60 153H35Z" fill="#bc9277"/>
+
+                <rect x="83" y="135" width="128" height="18" rx="4" fill="#a78465"/>
+                <rect x="91" y="117" width="111" height="17" rx="4" fill="#8da67f"/>
+                <rect x="98" y="99" width="95" height="17" rx="4" fill="#c59b85"/>
+
+                <g class="sleeping-cat">
+                    <ellipse cx="146" cy="82" rx="43" ry="18" fill="#d7ae85"/>
+                    <circle cx="111" cy="70" r="20" fill="#e1bb93"/>
+                    <path d="M95 58L96 39L111 53M115 53L130 41L129 60" fill="#e1bb93"/>
+                    <path d="M100 70Q104 75 108 70M116 70Q120 75 124 70" fill="none" stroke="#795a43" stroke-width="2"/>
+                    <path d="M109 78L113 81L117 78" fill="#b77c75"/>
+                    <path d="M181 82Q220 55 208 89Q199 101 179 92" fill="none" stroke="#d7ae85" stroke-width="11" stroke-linecap="round"/>
+                </g>
+
+                <text class="sleep-z" x="150" y="46" fill="#829574" font-size="15">z</text>
+                <text class="sleep-z delay" x="170" y="28" fill="#829574" font-size="20">z</text>
+
+            </svg>
+
+            <p>A little reading goes a long way.</p>
+
+        </div>
+
+        <div class="sidebar-footer">
+
+            <div class="connection" id="connection">
+                <span class="connection-dot"></span>
+                <span id="connectionText">Connecting to Firestore...</span>
+            </div>
+
+            <small>THE WILLOW LIBRARY © 2026</small>
+
+        </div>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div class="header-left">
+
+                <button class="icon-btn menu-btn" id="menuButton" aria-label="Open navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div>
+                    <span class="eyebrow">YOUR PEACEFUL READING SPACE</span>
+                    <h1 id="pageTitle">Library Overview</h1>
+                </div>
+
+            </div>
+
+            <div class="header-actions">
+
+                <span id="currentDate" class="date"></span>
+
+                <button class="icon-btn" id="refreshButton" title="Refresh" aria-label="Refresh records">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                </button>
+
+                <button class="icon-btn" id="themeButton" title="Change theme" aria-label="Change theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+
+                <div class="avatar">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- DASHBOARD -->
+
+        <section class="page active" id="page-dashboard">
+
+            <div class="hero">
+
+                <div class="hero-content">
+
+                    <span class="eyebrow">
+                        <i class="fa-solid fa-leaf"></i>
+                        A LITTLE CORNER OF TRANQUILITY
+                    </span>
+
+                    <h2>Every book opens<br>a new world.</h2>
+
+                    <p>
+                        Organize stories, connect readers, and make
+                        every chapter a beautiful experience.
+                        Welcome to your peaceful library workspace.
+                    </p>
+
+                    <button class="btn primary" data-go="books">
+                        Explore Collection
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+
+                </div>
+
+                <!-- READING ROOM SVG -->
+
+                <div class="hero-art">
+
+                    <svg viewBox="0 0 520 320" role="img" aria-label="Cozy reading room illustration">
+
+                        <ellipse cx="260" cy="296" rx="235" ry="13" fill="#94a884" opacity=".2"/>
+
+                        <!-- WINDOW -->
+
+                        <path d="M177 225V95A80 80 0 0 1 337 95V225Z" fill="#f4e7bd" stroke="#bfae92" stroke-width="6"/>
+
+                        <circle cx="282" cy="80" r="28" fill="#eac879"/>
+
+                        <path d="M181 180Q220 110 270 178Q305 135 333 165V225H181Z" fill="#b7cba3"/>
+
+                        <path d="M257 15V225M177 115H337" stroke="#bfae92" stroke-width="5"/>
+
+                        <!-- BOOKSHELF -->
+
+                        <rect x="20" y="60" width="130" height="230" rx="7" fill="#ad8968"/>
+                        <rect x="29" y="70" width="112" height="210" rx="3" fill="#e9dcc3"/>
+
+                        <path d="M29 140H141M29 210H141" stroke="#ad8968" stroke-width="7"/>
+
+                        <g>
+                            <rect x="35" y="85" width="20" height="51" rx="3" fill="#77936c"/>
+                            <rect x="58" y="92" width="19" height="44" rx="3" fill="#bd8c7c"/>
+                            <rect x="80" y="80" width="23" height="56" rx="3" fill="#bda16d"/>
+                            <rect x="106" y="88" width="20" height="48" rx="3" fill="#879ba0"/>
+
+                            <rect x="35" y="155" width="20" height="51" rx="3" fill="#bd8c7c"/>
+                            <rect x="58" y="163" width="19" height="43" rx="3" fill="#77936c"/>
+                            <rect x="80" y="151" width="23" height="55" rx="3" fill="#8a7969"/>
+                            <rect x="106" y="165" width="20" height="41" rx="3" fill="#c3aa78"/>
+
+                            <rect x="37" y="235" width="90" height="13" rx="3" fill="#9eb593"/>
+                            <rect x="43" y="249" width="83" height="13" rx="3" fill="#c59b85"/>
+                            <rect x="34" y="263" width="100" height="13" rx="3" fill="#a78465"/>
+                        </g>
+
+                        <!-- LAMP -->
+
+                        <path d="M388 85V282M368 285H408" stroke="#a58b63" stroke-width="6" stroke-linecap="round"/>
+                        <path d="M355 48H420L437 100H338Z" fill="#e5c78b"/>
+                        <ellipse class="lamp-glow" cx="388" cy="108" rx="48" ry="30" fill="#f7da8c" opacity=".2"/>
+
+                        <!-- CHAIR -->
+
+                        <rect x="190" y="143" width="145" height="120" rx="35" fill="#9eb593"/>
+                        <rect x="172" y="205" width="184" height="65" rx="23" fill="#77936c"/>
+                        <rect x="186" y="207" width="155" height="40" rx="17" fill="#b5c8a4"/>
+                        <rect x="168" y="190" width="32" height="70" rx="15" fill="#8da980"/>
+                        <rect x="326" y="190" width="32" height="70" rx="15" fill="#8da980"/>
+                        <path d="M190 267L184 290M337 267L343 290" stroke="#8c6b50" stroke-width="8"/>
+
+                        <rect x="215" y="164" width="60" height="44" rx="10" fill="#e8d7b8" transform="rotate(-8 244 186)"/>
+
+                        <!-- FLOATING OPEN BOOK -->
+
+                        <g class="floating">
+                            <path d="M265 220Q242 202 219 210L224 239Q245 231 265 247Q285 231 307 239L311 210Q286 202 265 220Z" fill="#fff8e8" stroke="#b79e7c" stroke-width="2"/>
+                            <path d="M265 220V247M230 218L252 224M231 226L252 232M278 224L300 218M278 232L299 226" fill="none" stroke="#c6b79c" stroke-width="2"/>
+                        </g>
+
+                        <!-- COFFEE TABLE -->
+
+                        <ellipse cx="420" cy="236" rx="54" ry="10" fill="#b48c68"/>
+                        <path d="M388 240L379 288M451 240L460 288" stroke="#9b7759" stroke-width="6"/>
+
+                        <ellipse cx="415" cy="228" rx="25" ry="5" fill="#dfd0b2"/>
+                        <path d="M398 201H431V215Q429 228 415 228Q400 228 398 215Z" fill="#fff7e5"/>
+                        <path d="M431 204Q449 201 443 214L431 219" fill="none" stroke="#fff7e5" stroke-width="5"/>
+                        <ellipse cx="414" cy="201" rx="16" ry="4" fill="#997251"/>
+
+                        <g class="steam" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round">
+                            <path d="M407 191Q397 179 408 166"/>
+                            <path d="M420 190Q432 177 421 161"/>
+                        </g>
+
+                        <!-- PLANT -->
+
+                        <g class="sway">
+                            <path d="M486 253Q480 192 490 145" fill="none" stroke="#64875b" stroke-width="3"/>
+                            <path d="M486 220Q447 210 451 179Q480 182 486 220" fill="#91ae7e"/>
+                            <path d="M486 198Q520 177 510 151Q487 158 486 198" fill="#719467"/>
+                            <path d="M487 173Q457 155 472 128Q492 143 487 173" fill="#a7bd91"/>
+                        </g>
+
+                        <path d="M466 246H507L499 287H474Z" fill="#bf8e73"/>
+
+                    </svg>
+
+                </div>
+
+            </div>
+
+            <div class="stats-grid" id="statsGrid"></div>
+
+            <div class="dashboard-grid">
+
+                <article class="panel">
+
+                    <div class="panel-heading">
+
+                        <div>
+                            <span class="eyebrow">YOUR COLLECTION</span>
+                            <h3>Discover your bookshelf</h3>
+                        </div>
+
+                        <button class="btn outline" data-go="books">
+                            View All
+                        </button>
+
+                    </div>
+
+                    <div class="bookshelf" id="dashboardBooks"></div>
+
+                </article>
+
+                <article class="panel">
+
+                    <div class="panel-heading">
+
+                        <div>
+                            <span class="eyebrow">READING ACTIVITY</span>
+                            <h3>Recent borrowings</h3>
+                        </div>
+
+                    </div>
+
+                    <div id="recentBorrowings"></div>
+
+                    <button class="btn outline full-width" data-go="borrowings">
+                        View Borrowings
+                    </button>
+
+                </article>
+
+            </div>
+
+            <div class="quote-banner">
+                <i class="fa-solid fa-leaf"></i>
+                A library is a place where imagination finds a home.
+            </div>
+
+        </section>
+
+        <!-- BOOKS -->
+
+        <section class="page" id="page-books">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="eyebrow">EVERY STORY MATTERS</span>
+                    <h2>Book Collection</h2>
+                    <p>Discover, organize and manage your library books.</p>
+                </div>
+
+                <button class="btn primary" data-add="books">
+                    <i class="fa-solid fa-plus"></i>
+                    Add New Book
+                </button>
+
+            </div>
+
+            <article class="panel">
+
+                <div class="toolbar">
+
+                    <div class="search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="search" id="bookSearch" placeholder="Search books...">
+                    </div>
+
+                    <select id="genreFilter">
+                        <option value="">All Genres</option>
+                    </select>
+
+                    <div class="view-switch">
+
+                        <button id="shelfView" class="selected">
+                            <i class="fa-solid fa-grip"></i> Shelf
+                        </button>
+
+                        <button id="tableView">
+                            <i class="fa-solid fa-list"></i> Table
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <p class="record-count" id="bookCount"></p>
+
+                <div id="booksContainer"></div>
+
+            </article>
+
+        </section>
+
+        <!-- MEMBERS -->
+
+        <section class="page" id="page-members">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="eyebrow">A COMMUNITY OF READERS</span>
+                    <h2>Library Members</h2>
+                    <p>Welcome new readers and manage memberships.</p>
+                </div>
+
+                <button class="btn primary" data-add="members">
+                    <i class="fa-solid fa-user-plus"></i>
+                    Register Member
+                </button>
+
+            </div>
+
+            <article class="panel">
+
+                <div class="toolbar">
+
+                    <div class="search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="search" id="memberSearch" placeholder="Search members...">
+                    </div>
+
+                    <select id="membershipFilter">
+                        <option value="">All Memberships</option>
+                        <option>Student</option>
+                        <option>Faculty</option>
+                        <option>Staff</option>
+                        <option>Other</option>
+                    </select>
+
+                </div>
+
+                <p class="record-count" id="memberCount"></p>
+
+                <div id="membersContainer"></div>
+
+            </article>
+
+        </section>
+
+        <!-- BORROWINGS -->
+
+        <section class="page" id="page-borrowings">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="eyebrow">STORIES ON A JOURNEY</span>
+                    <h2>Book Borrowings</h2>
+                    <p>Manage borrowed books and due dates.</p>
+                </div>
+
+                <button class="btn primary" data-add="borrowings">
+                    <i class="fa-solid fa-book"></i>
+                    Borrow a Book
+                </button>
+
+            </div>
+
+            <article class="panel">
+
+                <div class="toolbar">
+
+                    <div class="search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="search" id="borrowingSearch" placeholder="Search borrowing records...">
+                    </div>
+
+                    <select id="borrowingFilter">
+                        <option value="">All Statuses</option>
+                        <option>Borrowed</option>
+                        <option>Returned</option>
+                        <option>Overdue</option>
+                    </select>
+
+                </div>
+
+                <p class="record-count" id="borrowingCount"></p>
+
+                <div id="borrowingsContainer"></div>
+
+            </article>
+
+        </section>
+
+        <!-- RETURNS -->
+
+        <section class="page" id="page-returns">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="eyebrow">WELCOME STORIES HOME</span>
+                    <h2>Return Desk</h2>
+                    <p>Process returns and monitor completed transactions.</p>
+                </div>
+
+            </div>
+
+            <article class="panel">
+
+                <div class="toolbar">
+
+                    <div class="search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="search" id="returnSearch" placeholder="Search returns...">
+                    </div>
+
+                    <select id="returnFilter">
+                        <option value="Borrowed">Pending Returns</option>
+                        <option value="Returned">Completed Returns</option>
+                        <option value="">All Records</option>
+                    </select>
+
+                </div>
+
+                <p class="record-count" id="returnCount"></p>
+
+                <div id="returnsContainer"></div>
+
+            </article>
+
+        </section>
+
+        <!-- REPORTS -->
+
+        <section class="page" id="page-reports">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="eyebrow">THE LIBRARY IN NUMBERS</span>
+                    <h2>Library Reports</h2>
+                    <p>Review collection and borrowing statistics.</p>
+                </div>
+
+                <div class="actions">
+
+                    <button class="btn primary" id="exportButton">
+                        <i class="fa-solid fa-file-csv"></i>
+                        Export CSV
+                    </button>
+
+                    <button class="btn outline" id="printButton">
+                        <i class="fa-solid fa-print"></i>
+                        Print Report
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="stats-grid" id="reportStats"></div>
+
+            <article class="panel">
+
+                <div class="panel-heading">
+                    <h3>Books by Genre</h3>
+                </div>
+
+                <div id="genreChart"></div>
+
+            </article>
+
+            <article class="panel report-panel">
+
+                <div class="panel-heading">
+                    <h3>Detailed Library Records</h3>
+                </div>
+
+                <div class="toolbar">
+
+                    <select id="reportType">
+                        <option value="books">Book Collection</option>
+                        <option value="members">Members</option>
+                        <option value="borrowings">Borrowings</option>
+                        <option value="returns">Returned Books</option>
+                    </select>
+
+                    <div class="search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="search" id="reportSearch" placeholder="Search report...">
+                    </div>
+
+                    <label>
+                        From
+                        <input type="date" id="reportFrom">
+                    </label>
+
+                    <label>
+                        To
+                        <input type="date" id="reportTo">
+                    </label>
+
+                </div>
+
+                <p class="record-count" id="reportCount"></p>
+
+                <div id="reportContainer"></div>
+
+            </article>
+
+        </section>
+
+        <footer class="footer">
+            <i class="fa-solid fa-leaf"></i>
+            The Willow Library · Read. Relax. Discover.
+        </footer>
+
+    </main>
+
+</div>
+
+<!-- ADD / EDIT MODAL -->
+
+<div class="modal-backdrop" id="recordModal" hidden>
+
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+
+        <div class="modal-heading">
+
+            <div>
+                <span class="eyebrow">THE WILLOW LIBRARY</span>
+                <h2 id="modalTitle">Add Record</h2>
+            </div>
+
+            <button class="icon-btn" data-close="recordModal" aria-label="Close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+        <form id="recordForm">
+
+            <div class="form-grid" id="formFields"></div>
+
+            <div class="form-error" id="formError" hidden></div>
+
+            <div class="modal-actions">
+
+                <button type="button" class="btn outline" data-close="recordModal">
+                    Cancel
+                </button>
+
+                <button type="submit" class="btn primary" id="saveButton">
+                    <i class="fa-solid fa-check"></i>
+                    Save Record
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- VIEW MODAL -->
+
+<div class="modal-backdrop" id="detailModal" hidden>
+
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+
+        <div class="modal-heading">
+
+            <h2 id="detailTitle">Record Details</h2>
+
+            <button class="icon-btn" data-close="detailModal" aria-label="Close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+        <div id="detailContent"></div>
+
+        <div class="modal-actions">
+            <button class="btn primary" data-close="detailModal">
+                Close Details
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CONFIRMATION MODAL -->
+
+<div class="modal-backdrop" id="confirmModal" hidden>
+
+    <div class="modal confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+
+        <div class="confirm-icon" id="confirmIcon">
+            <i class="fa-solid fa-circle-exclamation"></i>
+        </div>
+
+        <h2 id="confirmTitle">Are you sure?</h2>
+
+        <p id="confirmMessage"></p>
+
+        <div class="modal-actions centered">
+
+            <button class="btn outline" id="cancelConfirm">
+                Cancel
+            </button>
+
+            <button class="btn delete" id="confirmButton">
+                Confirm
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- LOADING -->
+
+<div class="loading-overlay" id="loadingOverlay" hidden>
+
+    <div class="loading-card">
+
+        <div class="loading-book">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <h3>Turning the pages...</h3>
+        <p id="loadingText">Loading your library.</p>
+
+    </div>
+
+</div>
+
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</body>
+</html>
