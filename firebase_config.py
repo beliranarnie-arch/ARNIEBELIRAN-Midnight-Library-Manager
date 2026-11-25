@@ -1,4 +1,5 @@
 import os
+import json
 import firebase_admin
 
 from threading import RLock
@@ -28,58 +29,72 @@ _lock = RLock()
 # ======================================================
 
 def get_db():
-    """Return a cached and thread-safe Firestore client."""
 
     global _db
 
     with _lock:
 
-        # Reuse existing Firestore connection
         if _db is not None:
             return _db
 
-        # Check if Firebase is already initialized
         try:
             firebase_app = firebase_admin.get_app()
 
         except ValueError:
 
-            # Get Firebase credentials
-            credential_path = os.getenv(
-                "GOOGLE_APPLICATION_CREDENTIALS",
-                "ServiceAccountKey.json"
-            )
+            # VERCEL CLOUD CONFIGURATION
+            firebase_json = os.getenv(
+                "FIREBASE_SERVICE_ACCOUNT", ""
+            ).strip()
 
-            # Resolve relative file path
-            if not os.path.isabs(credential_path):
-                credential_path = os.path.join(
-                    BASE_DIR,
+            if firebase_json:
+
+                try:
+                    service_account = json.loads(
+                        firebase_json
+                    )
+
+                    cred = credentials.Certificate(
+                        service_account
+                    )
+
+                except (ValueError, TypeError) as error:
+                    raise RuntimeError(
+                        "Invalid Firebase service account configuration."
+                    ) from error
+
+            # LOCAL PYCHARM CONFIGURATION
+            else:
+
+                credential_path = os.getenv(
+                    "GOOGLE_APPLICATION_CREDENTIALS",
+                    "ServiceAccountKey.json"
+                )
+
+                if not os.path.isabs(credential_path):
+                    credential_path = os.path.join(
+                        BASE_DIR,
+                        credential_path
+                    )
+
+                if not os.path.isfile(credential_path):
+                    raise FileNotFoundError(
+                        "Firebase service account file not found."
+                    )
+
+                cred = credentials.Certificate(
                     credential_path
                 )
 
-            # Validate credentials file
-            if not os.path.isfile(credential_path):
-                raise FileNotFoundError(
-                    f"Firebase service-account file "
-                    f"was not found: {credential_path}"
-                )
+            firebase_app = firebase_admin.initialize_app(
+                cred
+            )
 
-            # Load Firebase credentials
-            cred = credentials.Certificate(credential_path)
-
-            # Initialize Firebase only once
-            try:
-                firebase_app = firebase_admin.initialize_app(cred)
-
-            except ValueError:
-                # Reuse the app if another initializer created it
-                firebase_app = firebase_admin.get_app()
-
-        # Create Firestore client
+        # CREATE FIRESTORE CLIENT
         _db = firestore.client(app=firebase_app)
 
         print("=" * 50)
-        print("MIDNIGHT LIBRARY MANAGER")
+        print("THE WILLOW | LIBRARY BOOK MANAGER")
         print("Firebase initialized successfully.")
         print("Firestore client is ready.")
         print("=" * 50)
