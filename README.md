@@ -1,163 +1,125 @@
-# 📚 Midnight Library Manager
+# Midnight Library – Library Book Management System
 
-**A Web-Based Library Book Management System**
+## Project Description
 
-Advance Database | Final Practical Activity | 2026
+Midnight Library is a web-based Library Book Management System
+developed using Python Flask and Firebase Cloud Firestore.
 
-## 📖 Project Description
+The system provides a centralized platform for managing books,
+library members, borrowing transactions, book returns, and
+library inventory.
 
-Midnight Library Manager is a web-based library management system developed using Python Flask and Firebase Cloud Firestore. It provides a centralized platform for managing books, library members, borrowing transactions, book returns, and reports.
+It features a modern Midnight-themed dashboard that simplifies
+library operations and improves record management.
 
-The system features a modern midnight-themed dashboard with interactive navigation, search and filtering functionality, data validation, and CRUD operations connected to a cloud-based NoSQL database.
+## Website URL
 
-**Organize. Borrow. Discover.**
+Open the Midnight Library website using the following link:
 
-## 🌐 Application URL
+[Library Book Manager Website](http://127.0.0.1:5001/)
 
-- Local Website: http://127.0.0.1:5000/
-- Firebase Connection Test: http://127.0.0.1:5000/test-firestore
+Note: The Flask application must be running before accessing
+the local website.
 
-Note: The application runs locally and requires the Flask server to be running.
+## System Features
 
-## 🎯 Project Objectives
+- Interactive Library Dashboard
+- Book Management
+- Member Management
+- Borrowing Management
+- Book Return Management
+- Library Reports
+- Book Availability Monitoring
+- Automatic Available Copies Calculation
+- Search and Filter Records
+- Create, Read, Update, and Delete Operations
+- Input Validation
+- Confirmation Dialogs
+- Responsive Midnight-themed Interface
+- Firebase Cloud Firestore Integration
 
-- Develop a functional cloud-based library management system.
-- Implement complete CRUD operations using Firebase Cloud Firestore.
-- Establish relationships between books, members, and borrowing records.
-- Automate book availability and return transactions.
-- Provide an organized, responsive, and user-friendly interface.
-- Demonstrate the practical application of NoSQL database management.
+## Technologies Used
 
-## ✨ System Features
+| Technology | Purpose |
+|------------|---------|
+| Python | Backend Programming |
+| Flask | Web Application Framework |
+| HTML5 | Website Structure |
+| CSS3 | Website Design |
+| JavaScript | Interactive Functionality |
+| Firebase Cloud Firestore | Cloud Database |
+| PyCharm | Development Environment |
+| GitHub | Source Code Repository |
 
-### Dashboard
-- Total book titles
-- Total book copies
-- Available book copies
-- Registered members
-- Active borrowings
-- Returned books
-- Library statistics
+## Database Collections
 
-### Book Management
-- Add new books
-- View book details
-- Update book information
-- Delete eligible book records
-- Search and filter books
-- Shelf and table views
-- Automatic availability tracking
-
-### Member Management
-- Register new members
-- View member profiles
-- Update member information
-- Delete eligible member records
-- Search and filter members
-
-### Borrowing Management
-- Create borrowing transactions
-- Select books and registered members
-- Manage borrowing and due dates
-- Update active borrowing records
-- Delete borrowing transactions
-- Automatically deduct available book copies
-
-### Return Management
-- Process book returns
-- Record return dates
-- Update borrowing status
-- Automatically restore available book copies
-- Prevent duplicate returns
-
-### Reports
-- Library transaction summaries
-- Search and filtering
-- CSV export
-- Printable reports
-
-## 💻 Technologies Used
-
-| Technology | Description |
-|---|---|
-| Python | Backend programming language |
-| Flask | Web application framework |
-| Firebase Cloud Firestore | Cloud-based NoSQL database |
-| Firebase Admin SDK | Firebase database integration |
-| HTML5 | Website structure |
-| CSS3 | User interface design |
-| JavaScript | Interactive functionality |
-| PyCharm | Development environment |
-| GitHub | Source code management |
-
-## 🗄️ Database Collections
-
-The system uses three interconnected Firebase Cloud Firestore collections.
+The system uses three connected Firebase Firestore collections.
 
 ### 1. Books
 
-| Field | Data Type |
-|---|---|
-| book_id | String |
-| title | String |
-| author | String |
-| genre | String |
-| isbn | String |
-| publisher | String |
-| year_published | Integer / Null |
-| quantity | Integer |
-| available_copies | Integer |
-| created_at | Timestamp |
-| updated_at | Timestamp |
+| Field | Description |
+|-------|-------------|
+| title | Book title |
+| author | Book author |
+| genre | Book genre |
+| isbn | International Standard Book Number |
+| publisher | Book publisher |
+| year_published | Publication year |
+| quantity | Total number of copies |
+| available_copies | Available book copies |
 
 ### 2. Members
 
-| Field | Data Type |
-|---|---|
-| member_id | String |
-| full_name | String |
-| email | String |
-| phone | String |
-| address | String |
-| membership_type | String |
-| registration_date | String |
-| status | String |
-| created_at | Timestamp |
+| Field | Description |
+|-------|-------------|
+| full_name | Member's full name |
+| email | Email address |
+| phone | Contact number |
+| address | Residential address |
+| membership_type | Student, Faculty, or Staff |
+| status | Membership status |
 
 ### 3. Borrowings
 
-| Field | Data Type |
-|---|---|
-| borrowing_id | String |
-| book_id | String |
-| member_id | String |
-| book_title | String |
-| member_name | String |
-| borrow_date | String |
-| due_date | String |
-| return_date | String |
-| status | String |
-| created_at | Timestamp |
+| Field | Description |
+|-------|-------------|
+| book_id | Reference to the borrowed book |
+| member_id | Reference to the library member |
+| borrow_date | Borrowing date |
+| due_date | Expected return date |
+| return_date | Actual return date |
+| status | Borrowed or Returned |
 
-## 🔗 Database Relationships
+## Database Relationships
 
-- Books to Borrowings: One-to-Many
-- Members to Borrowings: One-to-Many
-- Each borrowing record references a book and a registered member.
-- Book availability is updated automatically during borrowing and return transactions.
+- One book can have multiple borrowing records.
+- One member can borrow multiple books.
+- Each borrowing record references an existing book and member.
+- Borrowing a book decreases its available copies.
+- Returning a book increases its available copies.
+- Only active members can borrow available books.
 
-## 📂 Project Structure
+## CRUD Operations
+
+| Operation | Functionality |
+|-----------|---------------|
+| Create | Add books, members, and borrowing records |
+| Read | View and search existing records |
+| Update | Modify records and process book returns |
+| Delete | Remove eligible records |
+
+## Project Folder Structure
 
 ```text
 LibraryBookManager/
 │
 ├── app.py
 ├── firebase_config.py
-├── load_data.py
 ├── requirements.txt
-├── README.md
+├── .env
 ├── .env.example
 ├── .gitignore
+├── README.md
 │
 ├── templates/
 │   └── index.html
@@ -169,173 +131,119 @@ LibraryBookManager/
         └── app.js
 ```
 
-## ⚙️ System Requirements
-
-- Python 3.10 or newer
-- PyCharm or another Python IDE
-- Firebase account
-- Firebase Cloud Firestore database
-- Internet connection
-- Modern web browser
-
-## 🚀 Installation and Setup
+## Installation and Setup
 
 ### Step 1: Download the Project
 
-Clone or download this GitHub repository and open the project folder in PyCharm.
+Clone or download the GitHub repository and open the
+LibraryBookManager project folder in PyCharm.
 
-### Step 2: Create a Virtual Environment
+### Step 2: Install Dependencies
 
-```powershell
-py -m venv .venv
-```
-
-### Step 3: Install Required Dependencies
+Open the PyCharm terminal and execute:
 
 ```powershell
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+py -m pip install -r requirements.txt
 ```
 
-### Step 4: Configure Firebase
+### Step 3: Configure Firebase
 
-1. Visit https://console.firebase.google.com/.
+1. Visit https://console.firebase.google.com/
 2. Create or select a Firebase project.
 3. Enable Cloud Firestore.
-4. Navigate to Project Settings.
+4. Open Project Settings.
 5. Select Service Accounts.
 6. Generate a new private key.
-7. Save the downloaded file as `ServiceAccountKey.json` inside the project folder.
+7. Rename the downloaded file to ServiceAccountKey.json.
+8. Place the JSON file inside the project folder.
 
-### Step 5: Configure Environment Variables
+### Step 4: Configure Environment Variables
 
-Create a `.env` file using `.env.example` as a reference.
+Create a `.env` file inside the project folder.
 
 ```env
 GOOGLE_APPLICATION_CREDENTIALS=ServiceAccountKey.json
 FLASK_DEBUG=false
-PORT=5000
+PORT=5001
 ```
 
-### Step 6: Load Sample Data
+Ensure that the credential filename matches the actual
+Firebase service account JSON file.
 
-Run the following command:
+### Step 5: Run the Application
+
+Execute the following command:
 
 ```powershell
-.\.venv\Scripts\python.exe load_data.py
+py app.py
 ```
 
-The sample data loader automatically inserts sample books, fictional members, and borrowing transactions into Firebase Cloud Firestore without overwriting existing records.
+The application will run at:
 
-### Step 7: Run the Application
+http://127.0.0.1:5001/
 
-```powershell
-.\.venv\Scripts\python.exe app.py
-```
+## Dashboard Summary
 
-### Step 8: Open the Website
+The dashboard displays the following library information:
 
-Visit:
+- Total Books
+- Registered Members
+- Total Borrowings
+- Available Book Copies
+- Active Borrowings
+- Returned Books
 
-http://127.0.0.1:5000/
-
-### Step 9: Verify Firebase Connection
-
-Visit:
-
-http://127.0.0.1:5000/test-firestore
-
-A successful response confirms that the application can communicate with Firebase Cloud Firestore.
-
-## 🔌 API Endpoints
-
-| Method | Endpoint | Function |
-|---|---|---|
-| GET | /test-firestore | Test Firestore connection |
-| GET | /api/summary | Retrieve dashboard statistics |
-| GET | /api/books | Retrieve books |
-| POST | /api/books | Add a book |
-| GET | /api/members | Retrieve members |
-| POST | /api/members | Register a member |
-| GET | /api/borrowings | Retrieve borrowing records |
-| POST | /api/borrowings | Create a borrowing transaction |
-| GET | /api/resource/id | Retrieve a specific record |
-| PUT | /api/resource/id | Update a record |
-| DELETE | /api/resource/id | Delete an eligible record |
-| POST | /api/returns/id | Process a book return |
-| POST | /api/seed | Load sample data |
-
-Replace `resource` with the corresponding collection name and `id` with the document ID.
-
-## ✅ Functional Requirements
-
-| Requirement | Implementation |
-|---|---|
-| Cloud-Based NoSQL Database | Firebase Cloud Firestore |
-| Three Database Collections | Books, Members, Borrowings |
-| Main Collection with at Least Five Fields | Books Collection |
-| Create | Add new records |
-| Read | Retrieve and display records |
-| Update | Modify existing records |
-| Delete | Remove eligible records |
-| Search | Search database records |
-| Filter | Filter records by supported fields |
-| Single Record View | Retrieve individual records |
-| Data Validation | Server-side validation |
-| Database Relationships | Book and member references |
-| Sample Data | Automatic sample data loader |
-| User Interface | Midnight-themed dashboard |
-| Documentation | README.md |
-| Version Control | GitHub |
-
-## 🛡️ Data Validation and Security
-
-The system includes the following validation and database safeguards:
+## Data Validation and Security
 
 - Required field validation
-- Email format validation
-- Duplicate ISBN checks
-- Duplicate member email checks
+- Email address validation
 - Book quantity validation
 - Publication year validation
-- Borrowing and due date validation
+- Borrowing and return date validation
 - Book availability verification
-- Active borrowing deletion restrictions
-- Duplicate return prevention
-- Firestore transactions for inventory consistency
+- Active membership verification
+- Firebase credential protection
+- Environment variable configuration
 
-Private Firebase credentials and environment configuration files must not be committed to the repository.
+## System Limitations
 
-## 📌 System Scope and Limitations
+- Requires an internet connection to access Cloud Firestore.
+- Requires valid Firebase credentials.
+- The application runs using a local Flask server.
+- The local website URL is not publicly accessible.
 
-Midnight Library Manager is developed for academic purposes and local demonstration. The application requires an active Firebase project and internet connectivity to perform database operations.
+## GitHub Security Notice
 
-Additional authentication, authorization, security controls, and deployment configurations are required before using the system in a public production environment.
+Do not upload the following files to GitHub:
 
-## 🏫 Academic Information
+- ServiceAccountKey.json
+- .env
+- .venv/
+- __pycache__/
 
-| Information | Details |
-|---|---|
-| Project Title | Midnight Library Manager |
-| Subject | Advance Database |
-| Activity | Final Practical Activity |
-| Project Category | Library Book Management System |
-| Database | Firebase Cloud Firestore |
-| Backend | Python Flask |
-| Development Environment | PyCharm |
-| Academic Year | 2026–2027 |
+Firebase service account credentials must remain private.
 
-## 📝 Conclusion
+Use `.env.example` to provide sample environment variables
+without exposing sensitive information.
 
-Midnight Library Manager demonstrates the practical implementation of a cloud-based NoSQL database through a functional web application. By integrating Python Flask with Firebase Cloud Firestore, the system provides an organized solution for managing library resources, member information, borrowing transactions, and book returns.
+## Academic Purpose
 
-The project applies essential database concepts, including CRUD operations, data validation, collection relationships, search, filtering, and transactional data management.
+This project was developed as a Final Practical Activity
+for the Advanced Database subject.
+
+It demonstrates cloud database integration, CRUD operations,
+database relationships, data validation, library management,
+and web application development using Python Flask and
+Firebase Cloud Firestore.
+
+## Project Status
+
+Developed for local execution and academic demonstration.
 
 ---
 
-### 📚 Midnight Library Manager
+# Midnight Library
 
-**Organize. Borrow. Discover.**
+**Organize Books. Empower Readers. Simplify Management.**
 
-Developed for the Advance Database Final Practical Activity.
-
-© 2026 Midnight Library Manager.
+Powered by Python Flask and Firebase Cloud Firestore.
