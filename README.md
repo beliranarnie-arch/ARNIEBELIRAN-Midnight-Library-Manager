@@ -1,25 +1,34 @@
-# Midnight Library – Library Book Management System
+# 🌙 Midnight Library – Library Book Management System
 
 ## Project Description
 
-Midnight Library is a web-based Library Book Management System
-developed using Python Flask and Firebase Cloud Firestore.
+Midnight Library is a web-based Library Book Management System developed using Python Flask and Firebase Cloud Firestore.
 
-The system provides a centralized platform for managing books,
-library members, borrowing transactions, book returns, and
-library inventory.
+The system provides a centralized platform for managing books, library members, borrowing transactions, book returns, and library inventory.
 
-It features a modern Midnight-themed dashboard that simplifies
-library operations and improves record management.
+It features a modern Midnight-themed dashboard that simplifies library operations, improves record management, and provides an interactive and user-friendly experience.
 
-## Website URL
+## 🌐 Live Website
 
-Open the Midnight Library website using the following link:
+**Vercel Deployment:**
 
-[Library Book Manager Website](http://127.0.0.1:5001/)
+https://the-willow-silk.vercel.app/
 
-Note: The Flask application must be running before accessing
-the local website.
+**Local Website:**
+
+http://127.0.0.1:5001/
+
+Note: The Flask application must be running before accessing the local website. The Vercel deployment is intended for online access.
+
+## Project Objectives
+
+- Provide centralized management of library records.
+- Simplify book borrowing and returning transactions.
+- Automatically monitor available book copies.
+- Maintain organized library member information.
+- Implement CRUD operations using Firebase Cloud Firestore.
+- Improve record accuracy through data validation.
+- Provide an interactive and responsive library management interface.
 
 ## System Features
 
@@ -41,24 +50,27 @@ the local website.
 ## Technologies Used
 
 | Technology | Purpose |
-|------------|---------|
+|---|---|
 | Python | Backend Programming |
 | Flask | Web Application Framework |
 | HTML5 | Website Structure |
 | CSS3 | Website Design |
 | JavaScript | Interactive Functionality |
 | Firebase Cloud Firestore | Cloud Database |
+| Firebase Admin SDK | Database Integration |
+| Python-dotenv | Environment Configuration |
 | PyCharm | Development Environment |
 | GitHub | Source Code Repository |
+| Vercel | Online Website Deployment |
 
 ## Database Collections
 
-The system uses three connected Firebase Firestore collections.
+The system uses three interconnected Firebase Cloud Firestore collections.
 
-### 1. Books
+### 1. Books Collection (`books`)
 
 | Field | Description |
-|-------|-------------|
+|---|---|
 | title | Book title |
 | author | Book author |
 | genre | Book genre |
@@ -68,10 +80,10 @@ The system uses three connected Firebase Firestore collections.
 | quantity | Total number of copies |
 | available_copies | Available book copies |
 
-### 2. Members
+### 2. Members Collection (`members`)
 
 | Field | Description |
-|-------|-------------|
+|---|---|
 | full_name | Member's full name |
 | email | Email address |
 | phone | Contact number |
@@ -79,10 +91,10 @@ The system uses three connected Firebase Firestore collections.
 | membership_type | Student, Faculty, or Staff |
 | status | Membership status |
 
-### 3. Borrowings
+### 3. Borrowings Collection (`borrowings`)
 
 | Field | Description |
-|-------|-------------|
+|---|---|
 | book_id | Reference to the borrowed book |
 | member_id | Reference to the library member |
 | borrow_date | Borrowing date |
@@ -98,89 +110,16 @@ The system uses three connected Firebase Firestore collections.
 - Borrowing a book decreases its available copies.
 - Returning a book increases its available copies.
 - Only active members can borrow available books.
+- Related records are protected against invalid deletion.
 
 ## CRUD Operations
 
 | Operation | Functionality |
-|-----------|---------------|
+|---|---|
 | Create | Add books, members, and borrowing records |
-| Read | View and search existing records |
+| Read | View, search, and filter existing records |
 | Update | Modify records and process book returns |
 | Delete | Remove eligible records |
-
-## Project Folder Structure
-
-```text
-LibraryBookManager/
-│
-├── app.py
-├── firebase_config.py
-├── requirements.txt
-├── .env
-├── .env.example
-├── .gitignore
-├── README.md
-│
-├── templates/
-│   └── index.html
-│
-└── static/
-    ├── css/
-    │   └── style.css
-    └── js/
-        └── app.js
-```
-
-## Installation and Setup
-
-### Step 1: Download the Project
-
-Clone or download the GitHub repository and open the
-LibraryBookManager project folder in PyCharm.
-
-### Step 2: Install Dependencies
-
-Open the PyCharm terminal and execute:
-
-```powershell
-py -m pip install -r requirements.txt
-```
-
-### Step 3: Configure Firebase
-
-1. Visit https://console.firebase.google.com/
-2. Create or select a Firebase project.
-3. Enable Cloud Firestore.
-4. Open Project Settings.
-5. Select Service Accounts.
-6. Generate a new private key.
-7. Rename the downloaded file to ServiceAccountKey.json.
-8. Place the JSON file inside the project folder.
-
-### Step 4: Configure Environment Variables
-
-Create a `.env` file inside the project folder.
-
-```env
-GOOGLE_APPLICATION_CREDENTIALS=ServiceAccountKey.json
-FLASK_DEBUG=false
-PORT=5001
-```
-
-Ensure that the credential filename matches the actual
-Firebase service account JSON file.
-
-### Step 5: Run the Application
-
-Execute the following command:
-
-```powershell
-py app.py
-```
-
-The application will run at:
-
-http://127.0.0.1:5001/
 
 ## Dashboard Summary
 
@@ -193,6 +132,81 @@ The dashboard displays the following library information:
 - Active Borrowings
 - Returned Books
 
+## Project Folder Structure
+
+    LibraryBookManager/
+    │
+    ├── app.py
+    ├── firebase_config.py
+    ├── requirements.txt
+    ├── .env.example
+    ├── .gitignore
+    ├── README.md
+    │
+    ├── templates/
+    │   └── index.html
+    │
+    └── static/
+        ├── css/
+        │   └── style.css
+        └── js/
+            └── app.js
+
+The `.env` and `ServiceAccountKey.json` files are required for the described local configuration but are excluded from the public GitHub repository for security purposes.
+
+## Installation and Setup
+
+### Step 1: Download the Project
+
+Clone or download the GitHub repository and open the LibraryBookManager project folder in PyCharm.
+
+### Step 2: Install Dependencies
+
+Open the PyCharm terminal and execute:
+
+    py -m pip install -r requirements.txt
+
+### Step 3: Configure Firebase
+
+1. Visit https://console.firebase.google.com/
+2. Create or select a Firebase project.
+3. Enable Cloud Firestore.
+4. Open Project Settings.
+5. Select Service Accounts.
+6. Generate a new private key.
+7. Rename the downloaded file to `ServiceAccountKey.json`.
+8. Place the JSON file inside the local project folder.
+
+### Step 4: Configure Environment Variables
+
+Create a `.env` file inside the local project folder.
+
+    GOOGLE_APPLICATION_CREDENTIALS=ServiceAccountKey.json
+    FLASK_DEBUG=false
+    PORT=5001
+
+Ensure that the credential filename matches the actual Firebase service account JSON file.
+
+### Step 5: Run the Application
+
+Execute the following command:
+
+    py app.py
+
+Open the application in your browser:
+
+http://127.0.0.1:5001/
+
+## Online Deployment
+
+Midnight Library has a Vercel deployment URL for online access.
+
+**Website:** https://the-willow-silk.vercel.app/
+
+Firebase credentials must be configured securely through the Vercel environment variables using a method supported by the application's Firebase configuration.
+
+The Firebase service account private key must never be uploaded to a public GitHub repository.
+
 ## Data Validation and Security
 
 - Required field validation
@@ -202,6 +216,7 @@ The dashboard displays the following library information:
 - Borrowing and return date validation
 - Book availability verification
 - Active membership verification
+- Database relationship validation
 - Firebase credential protection
 - Environment variable configuration
 
@@ -209,41 +224,50 @@ The dashboard displays the following library information:
 
 - Requires an internet connection to access Cloud Firestore.
 - Requires valid Firebase credentials.
-- The application runs using a local Flask server.
-- The local website URL is not publicly accessible.
+- Local execution requires Python and the necessary dependencies.
+- Online database operations depend on correct Vercel and Firebase configuration.
+- Authentication and role-based authorization are required before using the system with real library member information in a public production environment.
 
 ## GitHub Security Notice
 
-Do not upload the following files to GitHub:
+Do not upload the following files and folders to GitHub:
 
-- ServiceAccountKey.json
-- .env
-- .venv/
-- __pycache__/
+- `.env`
+- `ServiceAccountKey.json`
+- `.venv/`
+- `__pycache__/`
 
 Firebase service account credentials must remain private.
 
-Use `.env.example` to provide sample environment variables
-without exposing sensitive information.
+Use `.env.example` to provide sample environment variables without exposing sensitive information.
 
 ## Academic Purpose
 
-This project was developed as a Final Practical Activity
-for the Advanced Database subject.
+This project was developed as a Final Practical Activity for the Advanced Database subject.
 
-It demonstrates cloud database integration, CRUD operations,
-database relationships, data validation, library management,
-and web application development using Python Flask and
-Firebase Cloud Firestore.
+It demonstrates the practical implementation of:
+
+- Cloud Database Integration
+- Create, Read, Update, and Delete Operations
+- Database Collection Relationships
+- Data Validation
+- Inventory Management
+- Web Application Development
+- Version Control using GitHub
+- Online Deployment using Vercel
 
 ## Project Status
 
-Developed for local execution and academic demonstration.
+- Application Development: Completed
+- Database Platform: Firebase Cloud Firestore
+- Source Code Repository: GitHub
+- Deployment Platform: Vercel
+- Project Purpose: Academic Demonstration
 
 ---
 
-# Midnight Library
+# 🌙 Midnight Library
 
 **Organize Books. Empower Readers. Simplify Management.**
 
-Powered by Python Flask and Firebase Cloud Firestore.
+Powered by Python Flask, Firebase Cloud Firestore, and Vercel.
